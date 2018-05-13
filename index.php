@@ -25,18 +25,18 @@
     <body>
         <!-- header section -->
         <div class="container-fluid">
-            <?php include "header.php"; ?> 
+           
             <div class="wrapper">
                 <nav id="sidebar">
                     <!-- Sidebar Header -->
                     <div class="sidebar-header">
+                        <a href="index.php"><img src="img/logo.png" alt="" class="img-responsive logo"></a>
                         <h3>Reserva de Horas</h3>
                     </div>
 
                     <!-- Sidebar Links -->
                     <ul class="list-unstyled components">
                         <li class="active"><a href="#">Inicio</a></li>
-                        <li><a href="#">Acerca de</a></li>
                         <li><!-- Link with dropdown items -->
                             <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">Doctores</a>
                             <ul class="collapse list-unstyled" id="homeSubmenu">
@@ -44,6 +44,7 @@
                     </ul>
                 </nav>
                 <div id="content">
+                    <div id="doctor_name"></div>
                     <div class="dhx_cal_container panel" id="scheduler_here">
                         <div class="dhx_cal_navline">
                             <div class="dhx_cal_prev_button">&nbsp;</div>

@@ -8,6 +8,7 @@
   * @package app
   */
 
+  
 
   /** DRIVER, Nombre del driver de adodb para conexion a base de datos.  */
   define('DRIVER', 'mysql');
@@ -54,6 +55,7 @@
   /** SMTP_IP, Ip de servidor SMTP  */
   define('SMTP_IP', 'localhost');
   
-  date_default_timezone_set('America/Santiago')
+  date_default_timezone_set('America/Santiago');
 
+  include_once(dirname(__FILE__).'/../vendor/autoload.php');
 ?>

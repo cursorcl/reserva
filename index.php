@@ -45,6 +45,7 @@
 				</ul>
 			</nav>
 			<div id="content">
+                                <input type="hidden" id="id_doctor" value="">
 				<div class="dhx_cal_date" id="doctor_name"></div>
 				<div class="dhx_cal_container panel" id="scheduler_here">
 					<div class="dhx_cal_navline">
@@ -77,6 +78,7 @@
 	<script src="js/jquery-ui.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/dbAccess.js"></script>
+        <script src="js/rututil.js"></script>
 	<script src="codebase/dhtmlxscheduler.js"></script>
 	<script src="codebase/locale/locale_es.js"></script>
 	<script src="common/dhtmlxCombo/dhtmlxcombo.js"></script>

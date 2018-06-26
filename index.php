@@ -14,6 +14,7 @@
 <link rel="stylesheet" href="css/dhtmlscheduler_eos.css">
 <link rel="stylesheet" href="css/jquery.mCustomScrollbar.css" />
 <link rel="stylesheet" href="common/dhtmlxCombo/dhtmlxcombo.css" />
+<link rel="stylesheet" href="css/dhtmlx_custom.css" />
 <link rel="stylesheet" href="css/reserva.css" />
 <!--[if lt IE 9]>
         <script src="js/html5shiv.js"></script>

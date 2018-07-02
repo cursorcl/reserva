@@ -1,7 +1,7 @@
 
 function mybutton()
 {
-    alert("RUT");
+    var tmpRut = scheduler.formSection('Rut').getValue();
     if (validate(tmpRut))
     {
         var searchRut = clean(format(tmpRut));
@@ -14,7 +14,7 @@ function mybutton()
                 success: function (msg) {
                     $.each(msg, function (index, item) {
                         scheduler.formSection('Fono').setValue(item.phone);
-                        scheduler.formSection('paciente').setValue(item.name);
+                        scheduler.formSection('Paciente').setValue(item.name);
                     });
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
@@ -69,8 +69,8 @@ $().ready(
 					//node.childNodes[4].value = ev.details || "";
 				},
 				get_value:function(node, ev) {
-					ev.details = node.childNodes[0].value;
-					//return node.childNodes[1].value;
+					//ev.details = node.childNodes[0].value;
+					return node.childNodes[0].value;
 				},
 				focus:function(node) {
 					var a = node.childNodes[0];
@@ -97,7 +97,11 @@ $().ready(
             });
 
 
-
+            scheduler.attachEvent("onEventAdded", function (id){
+                var event = scheduler.getEvent(id);
+                    event.text = scheduler.formSection('Paciente').getValue();
+                return true;
+});
 
             scheduler.attachEvent("onEventSave", function (id, ev,
                     is_new) {
@@ -109,47 +113,37 @@ $().ready(
             });
 
             scheduler.attachEvent('onEventAdded', function (id, event) {
-
                 var tmpRut = scheduler.formSection('Rut').getValue();
                 var input_phone = scheduler.formSection('Fono').getValue();
                 var email = scheduler.formSection('Correo').getValue();
-
                 var hora = event.start_date.toTimeString().slice(0, 8);
                 var fecha = event.start_date.toISOString().slice(0, 10);
-
                 var id_doctor = $("#id_doctor").val();
-
-
-                parametros = {"input_rut": searchRut, "fecha": fecha, "hora": hora, "id_doctor": id_doctor, "input_email": email, "input_phone": input_phone};
                 if (validate(tmpRut))
                 {
                     var searchRut = clean(format(tmpRut));
-
-
-
-
-
+                    parametros = {"input_rut": searchRut, "fecha": fecha, "hora": hora, "id_doctor": id_doctor, "input_email": email, "input_phone": input_phone};
                     $.ajax({
                         type: "GET",
-                        url: "src/reserva/registrar_horas_para_paciente.php",
+                        url: "src/reserva/registrar_horas_para_paciente_sin_mail.php",
                         data: parametros,
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
                         success: function (msg) {
                             //Aqui debo verificar que fue almacenado exitosamente o fallidamente
-                            if (msg === "exito")
-                            {
-                                show_simple_modal("success", "Reserva de hora", "Su hora ha sido reservada exitosamente.", function (result) {
-                                    $("#reserva-form-usuario").submit();
-                                    return true;
-                                });
-                            } else
-                            {
-                                show_simple_modal("error ", "Reserva de hora", "Su hora no ha sido reservada exitosamente.", function (result) {
-                                    $("#reserva-form-usuario").submit();
-                                    return true;
-                                });
-                            }
+//                            if (msg === "exito")
+//                            {
+//                                show_simple_modal("success", "Reserva de hora", "Su hora ha sido reservada exitosamente.", function (result) {
+//                                    $("#reserva-form-usuario").submit();
+//                                    return true;
+//                                });
+//                            } else
+//                            {
+//                                show_simple_modal("error ", "Reserva de hora", "Su hora no ha sido reservada exitosamente.", function (result) {
+//                                    $("#reserva-form-usuario").submit();
+//                                    return true;
+//                                });
+//                            }
                         },
                         error: function (xhr, ajaxOptions, thrownError) {
                             alert(xhr.status);
@@ -163,117 +157,96 @@ $().ready(
 
             scheduler.attachEvent('onEventChanged',
                     function (id, event) {
-                        // eventService.update(event);
-                        alert("UPDATE");
+                        eventService.update(event);
+                        //alert("UPDATE");
                     });
-            scheduler.attachEvent('onEventDeleted', function (id) {
-                // eventService.delete(id);
-                alert("DELETE");
+                    
+                    
+            scheduler.attachEvent('onEventDeleted', function (id, event) {
+                var hora = event.start_date.toTimeString().slice(0, 8);
+                var fecha = event.start_date.toISOString().slice(0, 10);
+                var id_doctor = $("#id_doctor").val();
+                parametros = {"fecha": fecha, "hora": hora, "id_doctor": id_doctor};
+                $.ajax({
+                    type: "GET",
+                    url: "src/reserva/borrar_horas_para_paciente_sin_mail.php",
+                    data: parametros,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (msg) {
+                        //Aqui debo verificar que fue almacenado exitosamente o fallidamente
+//                        if (msg === "exito")
+//                        {
+//                            show_simple_modal("success", "Reserva de hora", "la hora ha sido borrada exitosamente.", function (result) {
+//                                $("#reserva-form-usuario").submit();
+//                                return true;
+//                            });
+//                        } else
+//                        {
+//                            show_simple_modal("error ", "Reserva de hora", "Su hora no ha sido borrada del sistema.", function (result) {
+//                                $("#reserva-form-usuario").submit();
+//                                return true;
+//                            });
+//                        }
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert(xhr.status);
+                        alert(thrownError);
+                        alert("!! " + xhr.responseText + " !!");
+                    }
+                });
+
             });
             scheduler.init('scheduler_here', new Date(), "month");
-            $
-                    .ajax({
-                        type: "POST",
-                        url: "src/doctors.php",
-                        data: "{}",
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "json",
-                        success: function (msg) {
-
-                            var line = "";
-                            $.each(msg, function (index, item) {
-                                line = line + "<li><a href='' id='"
-                                        + item.personalId + "'>"
-                                        + item.personalNombre
-                                        + "</a></li>";
-                            });
-                            $("#homeSubmenu").append(line);
-                            $("#homeSubmenu li")
-                                    .click(
-                                            function (e) {
-                                                $('#id_doctor').val(e.target.id);
-
-                                                e.preventDefault();
-                                                var doctor_name = $(
-                                                        this).text();
-                                                $("#doctor_name")
-                                                        .empty();
-                                                $
-                                                        .ajax({
-                                                            type: "GET",
-                                                            url: "src/reserva/obtener_horas_reservadas_x_doctor.php",
-                                                            data: {
-                                                                "id_doctor": e.target.id
-                                                            },
-                                                            contentType: "application/json; charset=utf-8",
-                                                            dataType: "json",
-                                                            success: function (
-                                                                    msg) {
-                                                                scheduler
-                                                                        .clearAll();
-                                                                var events = [];
-                                                                var id = 1;
-                                                                $
-                                                                        .each(
-                                                                                msg,
-                                                                                function (
-                                                                                        index,
-                                                                                        item) {
-                                                                                    var item = {
-                                                                                        "id": id,
-                                                                                        "text": item.pacienteNombre,
-                                                                                        "start_date": item.fecha
-                                                                                                + " "
-                                                                                                + item.horainicio,
-                                                                                        "end_date": item.fecha
-                                                                                                + " "
-                                                                                                + item.horatermino,
-                                                                                        "rut": item.pacienteRut
-                                                                                                + "-"
-                                                                                                + item.pacienteDv,
-                                                                                        "email": item.pacienteEmail,
-                                                                                        "telefono": item.pacienteFono
-                                                                                    };
-                                                                                    events
-                                                                                            .push(item);
-                                                                                    id++;
-                                                                                });
-                                                                scheduler
-                                                                        .parse(
-                                                                                events,
-                                                                                "json"); // takes
-                                                                // the
-                                                                // name
-                                                                // and
-                                                                // format
-                                                                // of
-                                                                // the
-                                                                // data
-                                                                // source
-                                                                $(
-                                                                        "#doctor_name")
-                                                                        .append(
-                                                                                doctor_name)
-                                                            },
-                                                            error: function (
-                                                                    xhr,
-                                                                    ajaxOptions,
-                                                                    thrownError) {
-                                                                alert(xhr.status);
-                                                                alert(thrownError);
-                                                                alert("-- "
-                                                                        + xhr.responseText
-                                                                        + " --");
-                                                            }
-                                                        });
-                                            });
-                        },
-                        error: function (xhr, ajaxOptions, thrownError) {
+            $.ajax({
+                type: "POST",
+                url: "src/doctors.php",
+                data: "{}",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (msg) {
+                    var line = "";
+                    $.each(msg, function (index, item) {
+                        line = line + "<li><a href='' id='" + item.personalId + "'>" + item.personalNombre + "</a></li>";
+                    });
+                    $("#homeSubmenu").append(line);
+                    $("#homeSubmenu li").click(function (e) {
+                        e.preventDefault();
+                        $('#id_doctor').val(e.target.id);
+                        var doctor_name = $(this).text();
+                        $("#doctor_name").empty();
+                        $.ajax({
+                            type: "GET",
+                            url: "src/reserva/obtener_horas_reservadas_x_doctor.php",
+                            data: { "id_doctor": e.target.id},
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            success: function (msg) {
+                                scheduler.clearAll();
+                                var events = [];
+                                var id = 1;
+                                $.each(msg,function (index, item) {
+                                    var item = {"id": id,"text": item.pacienteNombre,"start_date": item.fecha+ " "+ item.horainicio,"end_date": item.fecha+ " "+ item.horatermino,"rut": item.pacienteRut+ "-"+ item.pacienteDv,"email": item.pacienteEmail,"telefono": item.pacienteFono};
+                                    events.push(item);
+                                    id++;
+                                });
+                                scheduler.parse(events,"json");
+                                $("#doctor_name").append(doctor_name)
+                            },
+                            error: function (xhr, ajaxOptions, thrownError) {
+                                alert(xhr.status);
+                                alert(thrownError);
+                                alert("-- " + xhr.responseText + " --");
+                            }
+                        });
+                    });
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
                             alert(xhr.status);
                             alert(thrownError);
                             alert("-- " + xhr.responseText + " --");
-                        }
-                    });
+                }
+            });
         });
 $(document).ready(function () {
 

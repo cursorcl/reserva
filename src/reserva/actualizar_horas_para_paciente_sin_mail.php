@@ -50,8 +50,33 @@ if (!isset($_GET["input_paterno"]) || !isset($_GET["input_materno"]) || !isset($
 
 $conexion = mysqli_connect(DB_HOST, DB_USER, DB_PWD, DB_NAME);
 mysqli_set_charset($conexion, "utf8"); //formato de datos utf8
+
+$sql = "select  * from  reserva where id=$id";
+if (!$result = mysqli_query($conexion, $sql)) {
+    $line = $resultado->fetch_assoc();
+    $horaInicio =  $line['horaInicio'];
+    $doc = $line['personalId'];
+    $fecha_reseva = $line['fecha'];
+            
+}
+
+
 mysqli_query($conexion, "START TRANSACTION");
-$sql = "insert into reserva values ($id_doctor, '$fecha', '$hora', '$rut', '$dv', '$nombre', '$input_email', '$input_phone', $id)";
+
+$sql = "update horas set tomada=0 where personalId='$doc' and fecha='$fecha_reseva' and horaInicio='$horaInicio'";
+if (!$result = mysqli_query($conexion, $sql)) {
+    mysqli_query($conexion, "ROLLBACK");
+    die();
+}
+
+$sql = "delete from horas_por_confirmar where personalId='$doc' and fecha='$fecha_reseva' and horaInicio='$horaInicio'";
+if (!$result = mysqli_query($conexion, $sql)) {
+    mysqli_query($conexion, "ROLLBACK");
+    die();
+}
+
+
+$sql = "update reserva set fecha='$fecha', horaInicio='$hora', pacienteRut='$rut', pacienteDv='$dv', pacienteNombre='$nombre', pacienteEmail='$input_email', pacienteFono = '$input_phone' where id=$id";
 if (!$result = mysqli_query($conexion, $sql)) {
     mysqli_query($conexion, "ROLLBACK");
     die();
@@ -61,7 +86,6 @@ if (!$result = mysqli_query($conexion, $sql)) {
     mysqli_query($conexion, "ROLLBACK");
     die();
 }
-
 mysqli_query($conexion, "COMMIT");
 $close = mysqli_close($conexion);
 

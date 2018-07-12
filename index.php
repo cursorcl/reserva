@@ -80,6 +80,7 @@
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/dbAccess.js"></script>
         <script src="js/rututil.js"></script>
+         <script src="js/moment.js"></script>
 	<script src="codebase/dhtmlxscheduler.js"></script>
 	<script src="codebase/locale/locale_es.js"></script>
 	<script src="common/dhtmlxCombo/dhtmlxcombo.js"></script>

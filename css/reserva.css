@@ -130,6 +130,12 @@ a.article, a.article:hover {
 }
 
 
+.dhx_cal_date#doctor_name { 
+    text-align: center;
+    font-size: 1.5em !important;
+    color: #fff
+}
+
 /* ---------------------------------------------------
     CONTENT STYLE
 ----------------------------------------------------- */

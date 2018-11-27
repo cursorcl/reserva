@@ -23,7 +23,7 @@ if( isset($_GET["id_doctor"]) )
 }
  
 
-$sql =  "SELECT reserva.id, reserva.personalId, personalNombre, date_format(fecha, '%m/%d/%Y') as fecha, time_format(horainicio, '%H:%i') as horainicio, time_format(ADDTIME(horainicio, 2000),'%H:%i') as horatermino, pacienteRut, pacienteDv, pacienteNombre, pacienteEmail, pacienteFono "; 
+$sql =  "SELECT reserva.id, reserva.personalId, personalNombre, date_format(fecha, '%m/%d/%Y') as fecha, time_format(horainicio, '%H:%i') as horainicio, time_format(ADDTIME(horainicio, 1500),'%H:%i') as horatermino, pacienteRut, pacienteDv, pacienteNombre, pacienteEmail, pacienteFono "; 
 $sql = $sql. "FROM reserva, personal ";
 $sql = $sql. "WHERE 	personal.personalId = reserva.personalId and ";
 $sql = $sql. "		EXTRACT(MONTH FROM fecha) = EXTRACT(MONTH FROM '$fecha') and ";

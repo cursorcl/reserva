@@ -98,18 +98,7 @@ li a.active {
     border-color: #fff;
     margin-top: 4px;
 }
-.modal-backdrop {
-    z-index: 100000 !important;
-}
 
-.modal {
-    z-index: 100001 !important;
-}
-
-.modal-open .navbar-fixed-top,
-.modal-open .navbar-fixed-bottom {
-    padding-right: 17px;
-}
 /*slider area*/
 
 .slider-row {
@@ -396,6 +385,7 @@ li a.active {
 
 .team {
     padding-bottom: 60px;
+    min-height: 100%;
 }
 .team h2 {
     font-size: 90px;
@@ -570,19 +560,6 @@ li a.active {
     font-family: 'BenchNine', sans-serif;
     font-weight: bold;
 }
-
-.contact-form input.reset-btn {
-    width: 180px;
-    height: 50px;
-    float: right;
-    font-size: 24px;
-    color: #fff;
-    background: url(../img/btn-bg.jpg);
-    background-repeat: no-repeat;
-    padding: 0;
-    font-family: 'BenchNine', sans-serif;
-    font-weight: bold;
-}
 .contact-form {
     padding-right: 40px;
 }
@@ -597,11 +574,6 @@ li a.active {
 }
 
 
-.img-doctor{
-   padding:1px;
-   border:1px solid #ffffff;
-   background-color:#ff0;
-}
 /*gmap*/
 
 .map {
@@ -610,7 +582,7 @@ li a.active {
     height: 400px;
     position: relative;
     overflow: auto;
-
+	
 }
 .mapa button.btn-secondary {
     font-family: 'Open Sans', sans-serif;
@@ -625,15 +597,165 @@ li a.active {
     height: 830px;
     /*margin-top: 0px;*/
     left: 0;
-
+    
     background: rgba(0, 0, 0, 0.51);
-    margin-top: 40px;
-
+	margin-top: 40px;
+	
 }
 .contact-caption {
     margin-top: 120px;
 }
 
+
+/* Reserva */
+.reserva {
+	margin-top: 40px;
+}
+.reserva-caption {
+    background: #3a9dca;
+}
+.reserva-heading h2 {
+    color: #fff;
+    font-size: 90px;
+}
+.reserva-info {
+    padding-left: 40px;
+}
+.reserva-info h3 {
+    padding-left: 0;
+    font-size: 30px;
+    color: #fff;
+    text-transform: uppercase;
+    font-weight: bold;
+    border-bottom: 1px solid #13849c;
+    padding-bottom: 12px;
+    margin-bottom: 0;
+}
+.reserva-form h3 {
+    padding-left: 0;
+    font-size: 30px;
+    color: #fff;
+    text-transform: uppercase;
+    font-weight: bold;
+    border-bottom: 1px solid #13849c;
+    padding-bottom: 12px;
+    margin-bottom: 0;
+}
+.reserva-info ul {
+    margin: 0;
+    padding: 0;
+}
+.reserva-info ul li {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    color: #fff;
+}
+.reserva-info i.fa {
+    font-size: 16px;
+    padding-right: 12px;
+    width: 25px;
+    height: 38px;
+}
+.reserva-info ul li span {
+    font-weight: bold;
+}
+.reserva-form input {
+    width: 100%;
+    height: 40px;
+    background: #fff;
+    font-size: 13px;
+    color: #084a5c;
+    font-family: 'Open Sans', sans-serif;
+    padding: 12px;
+    border: 0;
+    margin-bottom: 12px;
+}
+
+.reserva-form select {
+    width: 100%;
+    height: 40px;
+    background: #fff;
+    font-size: 13px;
+    color: #084a5c;
+    font-family: 'Open Sans', sans-serif;
+    padding: 12px;
+    border: 0;
+    margin-bottom: 12px;
+}
+
+.datepicker {
+    background: #fff;
+    font-size: 13px;
+    color: #084a5c;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.reserva-form textarea {
+    font-family: 'Open Sans', sans-serif;
+    padding: 12px;
+    width: 100%;
+    height: 140px;
+    border: 0;
+    margin-bottom: 12px;
+}
+.info-detail {
+    border-top: 1px solid #53cde5;
+    padding-top: 15px;
+}
+.form {
+    border-top: 1px solid #53cde5;
+    padding-top: 15px;
+    text-align: right;
+}
+.reserva-form input.submit-btn {
+    width: 180px;
+    height: 50px;
+    float: right;
+    font-size: 24px;
+    color: #fff;
+    background: url(../img/btn-bg.jpg);
+    background-repeat: no-repeat;
+    padding: 0;
+    font-family: 'BenchNine', sans-serif;
+    font-weight: bold;
+}
+.reserva-form {
+    padding-right: 40px;
+}
+.reserva table
+{
+    margin-top:20px;
+}
+.reserva table thead
+{
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    background:#0676a5;
+    color:#fff;
+    align:center;
+}
+
+.reserva table
+{
+    font-family: 'Open Sans', sans-serif;
+    font-size: 11px;
+    vertical-align:middle;
+}
+
+.reserva th {
+    text-align: center;
+    
+}
+.reserva .td-name {
+    vertical-align:middle;
+    color:#fff;
+}
+.reserva .td-centered {
+    text-align: center;
+    vertical-align:middle;
+    color:#fff;
+}
+/* Reserva */
 
 /*footer*/
 
@@ -660,6 +782,13 @@ li a.active {
 .carousel-inner {
     position: relative;
 }
+
+.reserva-lbl-info {
+    font-size: 12px;
+    font-family: 'BenchNine', sans-serif;
+    font-weight: bold;    
+} 
+
 
 /*======================css for carousel=========================*/
 
@@ -786,7 +915,7 @@ responsive area
         /*height: 1050px;*/
     }
     .contact {
-        margin-top: -1050px;
+        /*margin-top: -1050px;*/
         height: 1050px;
     }
     .contact-caption {
@@ -823,7 +952,7 @@ responsive area
     }
     .contact {
         height: 1120px;
-        margin-top: -1120px;
+        /*margin-top: -1120px;*/
     }
     h2 {
         font-size: 70px !important;
@@ -910,7 +1039,7 @@ responsive area
     }
     .contact {
         height: 950px;
-        margin-top: -950px;
+        /*margin-top: -950px;*/
     }
     .contact-heading h2 {
         font-size: 50px;
@@ -950,5 +1079,7 @@ responsive area
     .footer p {
         font-size: 10px;
     }
-
+	
 }
+
+

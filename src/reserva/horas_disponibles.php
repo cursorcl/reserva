@@ -179,6 +179,10 @@ function getBlockedHours($id_doctor) {
         {
             array_push($dates, array(0 => $d, "day" => $d, 1 => 0, "fini" => 0, 2 => 1440, "fend" => 1440));
         }
+        else 
+        {
+            array_push($dates, array(0 => $d, "day" => $d, 1 => $itime, "fini" => $itime, 2 => 1440, "fend" => 1440));
+        }
     }
     
     return $dates;

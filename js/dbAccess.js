@@ -271,7 +271,7 @@ $(document).ready(function () {
                         } else
                         {
                             scheduler.config.readonly = false;
-                            obtainDoctors()
+                            obtainDoctors();
                         }
 
                         $('#login-modal').modal('hide');
@@ -298,6 +298,9 @@ $(document).ready(function () {
 
 function obtainOneDoctors($personalId)
 {
+    scheduler.clearAll();
+    scheduler.unblockTime([0,1,2,3,4,5,6], [0,24*60]);
+    scheduler.updateView();
     $.ajax({
         type: "GET",
         url: "src/reserva/obtener_horas_base.php",
@@ -311,6 +314,7 @@ function obtainOneDoctors($personalId)
                     css: "gray",
                     zones: [item.fini, item.fend]
                 });
+                scheduler.updateView();
             });
 
         },
@@ -335,7 +339,6 @@ function obtainOneDoctors($personalId)
                 $('#id_doctor').val(item.personalId);
                 $("#doctor_name").empty();
                 $("#doctor_name").append(item.personalNombre);
-                scheduler.clearAll();
                 var day = new Date();
                 var ff = day.toLocaleString().split(" ");
                 $fecha = day.toISOString().slice(0, 10);
@@ -353,6 +356,7 @@ function obtainOneDoctors($personalId)
                             events.push(item);
                         });
                         scheduler.parse(events, "json");
+                        scheduler.updateView();
 
                     },
                     error: function (xhr, ajaxOptions, thrownError) {
@@ -375,6 +379,9 @@ function obtainOneDoctors($personalId)
 
 function obtainDoctors()
 {
+    scheduler.clearAll();
+    scheduler.unblockTime([0,1,2,3,4,5,6], [0,24*60]);
+    scheduler.updateView();
     $.ajax({
         type: "GET",
         url: "src/doctors.php",
@@ -395,7 +402,8 @@ function obtainDoctors()
                 $("#doctor_name").empty();
                 $("#doctor_name").append(doctor_name);
                 scheduler.clearAll();
-
+                scheduler.unblockTime([0,1,2,3,4,5,6], [0,24*60]);
+                scheduler.updateView();
                 var day = new Date();
                 var ff = day.toLocaleString().split(" ");
                 $fecha = day.toISOString().slice(0, 10);
@@ -416,6 +424,7 @@ function obtainDoctors()
                                 zones: [item.fini, item.fend]
                             });
                         });
+                        scheduler.updateView();
 
                     },
                     error: function (xhr, ajaxOptions, thrownError) {

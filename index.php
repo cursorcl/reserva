@@ -16,6 +16,7 @@
         <link rel="stylesheet" href="css/bootstrap-theme.min.css">
         <link rel="stylesheet" href="css/jquery-ui.css">
         <link rel="stylesheet" href="codebase/dhtmlxscheduler.css">
+        
         <link rel="stylesheet" href="css/dhtmlscheduler_eos.css">
         <link rel="stylesheet" href="css/jquery.mCustomScrollbar.css" />
         <link rel="stylesheet" href="common/dhtmlxCombo/dhtmlxcombo.css" />
@@ -35,13 +36,12 @@
                 <div class="sidebar-header">
                     <a href="index.php"><img src="img/logo.png" alt=""
                                              class="img-responsive logo"></a>
-                    <h3>Reserva de Horas</h3>
+                    <h3>DOCTOR</h3>
                 </div>
                 <!-- Sidebar Links -->
                 <ul class="list-unstyled components">
                     <li>
                         
-                        <a href="#homeSubmenu">Cerrar Sesión</a>
                         <ul class="collapse in list-unstyled" id="homeSubmenu"></ul>
                     </li>
 
@@ -105,6 +105,7 @@
         <script src="codebase/locale/locale_es.js"></script>
         <script src="common/dhtmlxCombo/dhtmlxcombo.js"></script>
         <script src="codebase/ext/dhtmlxscheduler_editors.js"></script>
+        <script src="codebase/ext/dhtmlxscheduler_limit.js"></script>
         <script src="js/jquery.mCustomScrollbar.js"></script>
         <script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
     </body>

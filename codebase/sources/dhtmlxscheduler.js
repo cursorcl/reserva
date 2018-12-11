@@ -20,7 +20,7 @@ dhtmlx.extend_api=function(name,map,ext){
     window[name]=function(obj){
         var that;
 
-        if (obj && typeof obj == "object" && !obj.tagName){
+        if (obj && typeof obj === "object" && !obj.tagName){
             that = t.apply(this,(map._init?map._init(obj):arguments));
             //global settings
             for (var a in dhtmlx)

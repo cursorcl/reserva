@@ -1,4 +1,5 @@
 
+
 function mybutton()
 {
     var tmpRut = scheduler.formSection('Rut').getValue();
@@ -37,10 +38,15 @@ $().ready(
             scheduler.config.hour_size_px = (60 / step) * 22;
             scheduler.config.event_duration = step;
             scheduler.config.auto_end_date = true;
-            scheduler.config.first_hour = 10;
-            scheduler.config.last_hour = 19;
+            scheduler.config.first_hour = 09;
+            scheduler.config.last_hour = 20;
             scheduler.config.start_on_monday = true;
             scheduler.config.wide_form = true;
+
+
+
+
+
 
             scheduler.templates.event_class = function (start, end, event) {
                 if (event.text === "LIBRE")
@@ -48,12 +54,12 @@ $().ready(
                     return "red";
                 }
                 return event.color;
-            }
+            };
 
             scheduler.templates.lightbox_header = function (start, end,
                     event) {
                 return "DEFINIR HORA";
-            }
+            };
             scheduler.config.icons_select = ["icon_details", "icon_edit", "icon_delete"];
             $.ajax({
                 type: "POST",
@@ -294,6 +300,29 @@ function obtainOneDoctors($personalId)
 {
     $.ajax({
         type: "GET",
+        url: "src/reserva/obtener_horas_base.php",
+        data: {"personalId": $personalId},
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (msg) {
+            $.each(msg, function (index, item) {
+                scheduler.blockTime({
+                    days: item.day,
+                    css: "gray",
+                    zones: [item.fini, item.fend]
+                });
+            });
+
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            alert(xhr.status);
+            alert(thrownError);
+            alert("-- " + xhr.responseText + " --");
+        }
+    });
+
+    $.ajax({
+        type: "GET",
         url: "src/doctors.php",
         data: {"personalId": $personalId},
         contentType: "application/json; charset=utf-8",
@@ -372,6 +401,31 @@ function obtainDoctors()
                 $fecha = day.toISOString().slice(0, 10);
                 $hora = ff[1];
 
+
+                $.ajax({
+                    type: "GET",
+                    url: "src/reserva/obtener_horas_base.php",
+                    data: {"personalId": e.target.id},
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (msg) {
+                        $.each(msg, function (index, item) {
+                            scheduler.blockTime({
+                                days: item.day,
+                                css: "gray",
+                                zones: [item.fini, item.fend]
+                            });
+                        });
+
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert(xhr.status);
+                        alert(thrownError);
+                        alert("-- " + xhr.responseText + " --");
+                    }
+                });
+
+
                 $.ajax({
                     type: "GET",
                     url: "src/reserva/obtener_horas_reservadas_x_doctor.php",
@@ -409,8 +463,8 @@ function obtainDoctors()
  */
 function disconnect()
 {
-    
-    
+
+
     $("#myModal").empty();
     $("#homeSubmenu").empty();
     $('#id_doctor').empty();

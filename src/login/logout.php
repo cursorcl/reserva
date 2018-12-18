@@ -1,6 +1,9 @@
 <?php
-    session_destroy();    
-    header("Location: http://localhost/reserva");
+
+session_start() ;
+session_destroy() ;
+$_SESSION = [];
+header("Location: http://localhost/reserva");
 
 
 

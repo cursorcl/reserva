@@ -43,11 +43,6 @@ $().ready(
             scheduler.config.start_on_monday = true;
             scheduler.config.wide_form = true;
 
-
-
-
-
-
             scheduler.templates.event_class = function (start, end, event) {
                 if (event.text === "LIBRE")
                 {
@@ -209,19 +204,31 @@ $().ready(
 $(document).ready(function () {
 
     $("#sidebar").mCustomScrollbar({
-// theme: "minimal"
+        // theme: "minimal"
         theme: "dark"
     });
     $('#sidebarCollapse').on('click', function () {
-// open or close navbar
+        // open or close navbar
         $('#sidebar').toggleClass('active');
-// close dropdowns
+        // close dropdowns
         $('.collapse.in').toggleClass('in');
-// and also adjust aria-expanded attributes we use for the open/closed
-// arrows
-// in our CSS
+        // and also adjust aria-expanded attributes we use for the open/closed
+        // arrows
+        // in our CSS
         $('a[aria-expanded=true]').attr('aria-expanded', 'false');
     });
+    
+    var personalId = $("#personal_id").val();
+    var rol = $("#rol").val();
+    if (rol > 0)
+    {
+        scheduler.config.readonly = true;
+        obtainOneDoctors(personalId);
+    } else
+    {
+        scheduler.config.readonly = false;
+        obtainDoctors();
+    }    
 });
 
 function formatDate(date) {
@@ -237,69 +244,10 @@ function formatDate(date) {
 
     return [year, month, day].join('-');
 }
-
-
-
-$(document).ready(function () {
-    $("#btnsubmitlogin").click(function (e) {
-        e.preventDefault();
-        var name = $('#name').val();
-        var clave = $('#current-password').val();
-        var remember = $('#remember').val();
-        $.ajax({
-            type: "GET",
-            url: "src/login/validate_login.php",
-            data: {"username": name, "current-password": clave},
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (msg) {
-                $("#error_username").empty();
-                $("#error_password").empty();
-                //Aqui debo agregar todos los doctores en el UL reserva-listadodoctores
-                $.each(msg, function (index, item) {
-                    if (item.result === "false")
-                    {
-                        $("#error_username").text(item.name_error);
-                        $("#error_password").text(item.password_error);
-                    } else
-                    {
-
-                        if (item.rol > 0)
-                        {
-                            scheduler.config.readonly = true;
-                            obtainOneDoctors(item.personalId);
-                        } else
-                        {
-                            scheduler.config.readonly = false;
-                            obtainDoctors();
-                        }
-
-                        $('#login-modal').modal('hide');
-                        $('body').removeClass('modal-open');
-                        $('.modal-backdrop').remove();
-                    }
-
-                });
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-                alert(xhr.status);
-                alert(thrownError);
-                alert("!! " + xhr.responseText + " !!");
-            }
-        });
-    }
-    );
-    var loggin = $("#showlogin").val();
-    if (!loggin)
-    {
-        $('#login-modal').modal();
-    }
-});
-
 function obtainOneDoctors($personalId)
 {
     scheduler.clearAll();
-    scheduler.unblockTime([0,1,2,3,4,5,6], [0,24*60]);
+    scheduler.unblockTime([0, 1, 2, 3, 4, 5, 6], [0, 24 * 60]);
     scheduler.updateView();
     $.ajax({
         type: "GET",
@@ -380,7 +328,7 @@ function obtainOneDoctors($personalId)
 function obtainDoctors()
 {
     scheduler.clearAll();
-    scheduler.unblockTime([0,1,2,3,4,5,6], [0,24*60]);
+    scheduler.unblockTime([0, 1, 2, 3, 4, 5, 6], [0, 24 * 60]);
     scheduler.updateView();
     $.ajax({
         type: "GET",
@@ -402,7 +350,7 @@ function obtainDoctors()
                 $("#doctor_name").empty();
                 $("#doctor_name").append(doctor_name);
                 scheduler.clearAll();
-                scheduler.unblockTime([0,1,2,3,4,5,6], [0,24*60]);
+                scheduler.unblockTime([0, 1, 2, 3, 4, 5, 6], [0, 24 * 60]);
                 scheduler.updateView();
                 var day = new Date();
                 var ff = day.toLocaleString().split(" ");
@@ -472,14 +420,12 @@ function obtainDoctors()
  */
 function disconnect()
 {
-
-
-    $("#myModal").empty();
+    scheduler.clearAll();
+    scheduler.unblockTime([0, 1, 2, 3, 4, 5, 6], [0, 24 * 60]);
+    scheduler.updateView();
     $("#homeSubmenu").empty();
     $('#id_doctor').empty();
     $("#doctor_name").empty();
-    $.ajax({
-        type: 'GET',
-        url: 'src/login/logout.php'
-    });
+    //window.location = "http://localhost/reserva/index.php";
+    window.location.href = "/reserva";
 }

@@ -8,6 +8,11 @@ $name_error = $password_error = "";
 //print_r($_POST);
 $username = "";
 
+unset($_SESSION['user_id']);
+unset($_SESSION['personal_id']);
+unset($_SESSION['rol']);
+
+
 $resultValues = array();
 if (empty($_GET["username"])) {
     $name_error = "Debe ingresar cuenta de usuario";
@@ -71,13 +76,14 @@ if (is_null($nrows) || $nrows == FALSE || $nrows == 0) {
             } else {
                 $_SESSION['user_id'] = $username;
                 $_SESSION['personal_id'] = $row['personalId'];
+                $_SESSION['rol'] = $row['rol'];
                 $rol = $row['rol'];
             }
             break;
         }
     }
-    
+
     $close = mysqli_close($conexion);
 }
-$resultValues[0] = array(0 => $name_error, "name_error" => $name_error, 1 => $password_error, "password_error" => $password_error, 2 => "true", "result" => "true", 3=>$_SESSION['personal_id'], "personalId"=>$_SESSION['personal_id'], 4=>$rol, "rol"=>$rol);
+$resultValues[0] = array(0 => $name_error, "name_error" => $name_error, 1 => $password_error, "password_error" => $password_error, 2 => "true", "result" => "true", 3 => $_SESSION['personal_id'], "personalId" => $_SESSION['personal_id'], 4 => $rol, "rol" => $rol);
 echo json_encode($resultValues);

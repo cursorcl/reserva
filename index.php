@@ -1,13 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
-    <?
-
-    session_start(); 
-    session_destroy();     
+    <?php
+    session_start();
+        //if (isset($_SESSION['user_id']) and isset($_SESSION['personal_id']) and isset($_SESSION['rol'])) {
+        //    header("Location: http://localhost/reserva/asindex.php");
+        //}
     ?>
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+        <meta http-equiv="Pragma" content="no-cache" />
+        <meta http-equiv="Expires" content="0" />        
+
         <meta name="description" content="">
         <meta name="author" content="">
         <title>RESERVA</title>
@@ -34,62 +40,18 @@
             <nav id="sidebar">
                 <!-- Sidebar Header -->
                 <div class="sidebar-header">
-                    <a href="index.php"><img src="img/logo.png" alt=""
-                                             class="img-responsive logo"></a>
-                    <h3>DOCTOR</h3>
+                    <a href="index.php"><img src="img/logo.png" alt="" class="img-responsive logo"></a>
                 </div>
-                <!-- Sidebar Links -->
-                <ul class="list-unstyled components">
-                    <li>
-                        
-                        <ul class="collapse in list-unstyled" id="homeSubmenu"></ul>
-                    </li>
-
-                </ul>
             </nav>         
             <div class="container-fluid">
                 <div id="content">            
-
                     <input type="hidden" id="id_doctor" value="">
-                    <div class="dhx_cal_date" id="doctor_name"></div>
-                    <div class="dhx_cal_container panel" id="scheduler_here">
-                        <div class="dhx_cal_navline">
-
-                            <div class="dhx_cal_add_button">&nbsp;</div>
-                            <div class="dhx_dummy dhx_cal_today_button" onclick='disconnect()' style="right: 10px;">
-                                <span class="glyphicon glyphicon-log-out"></span>&nbsp;Salir
-                            </div>                             
-                            <div class="dhx_cal_prev_button" style="right: 150px;">&nbsp;</div>
-                            <div class="dhx_cal_next_button"style="right: 100px;">&nbsp;</div>
-                            <div class="dhx_dummy dhx_cal_today_button"
-                                 onclick='scheduler.addEventNow()' style="right: 210px;">
-                                <span class="glyphicon glyphicon-plus" ></span>&nbsp;Reserva
-                            </div>
-
-
-                            <div class="dhx_cal_date"></div>
-                            <div class="dhx_cal_tab" name="day_tab" style="right: 204px;"></div>
-                            <div class="dhx_cal_tab" name="week_tab" style="right: 140px;"></div>
-                            <div class="dhx_cal_tab" name="month_tab" style="right: 76px;"></div>
-
-
-                        </div>
-                        <div class="dhx_cal_header"></div>
-                        <div class="dhx_cal_data"></div>
-                    </div>
-
-                    <input type="hidden" id="showlogin" value="" />
                     <?php
-                    if (!isset($_SESSION['user_id'])) {
                         include "src/login/login.php";
-                    }
                     ?>
-
                 </div>
             </div>     
             <!-- header section -->
-
-
             <!-- footer starts here -->
             <!--<?php include "footer.php"; ?>-->
         </div>
@@ -98,9 +60,7 @@
         <script src="js/jquery-2.1.1.js"></script>
         <script src="js/jquery-ui.js"></script>
         <script src="js/bootstrap.min.js"></script>
-        <script src="js/dbAccess.js"></script>
-        <script src="js/rututil.js"></script>
-        <script src="js/moment.js"></script>
+        <script src="js/dbAccessLogin.js"></script>
         <script src="codebase/dhtmlxscheduler.js"></script>
         <script src="codebase/locale/locale_es.js"></script>
         <script src="common/dhtmlxCombo/dhtmlxcombo.js"></script>

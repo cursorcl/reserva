@@ -141,8 +141,29 @@ function getFirstHours($date, $id_doctor, $id_sede) {
     return firsthour($date, $id_doctor, $id_sede, 1, STEP_MINUTES);
 }
 
+function getSede($date, $id_doctor) {
+    $hbase = gethoursbasewithousede($id_doctor);
+    $time = new DateTime($date->format("Y-m-d H:i:s"));
+    $d = idate('w', $time->getTimestamp());
+
+    $sede = -1;
+    for ($i = 0; $i < sizeof($hbase); $i++) {
+        if ($hbase[$i]["day"] == $d) {
+            $init = intval($hbase[$i]["finit"]);
+            $endt = intval($hbase[$i]["fend"]);
+            $HH=idate('H', $time->getTimestamp()) * 60  + idate('i', $time->getTimestamp());
+            if($HH >= $hi and $HH <= $endt )
+            {
+              $sede = $hbase[$i]["sedeId"]; 
+              break;
+            }
+        }
+    }
+    return $sede;
+}
+
 function gethoursbasewithousede($id_doctor) {
-    $sql = "SELECT dia as day, hour(inicio) * 60 + minute(inicio) as finit, hour(fin) * 60 + minute(fin) as fend FROM asomel_data.eos_horariobase where personalId = $id_doctor order by day, finit";
+    $sql = "SELECT dia as day, hour(inicio) * 60 + minute(inicio) as finit, hour(fin) * 60 + minute(fin) as fend, sedeId FROM asomel_data.eos_horariobase where personalId = $id_doctor order by day, finit";
     $conexion = mysqli_connect(DB_HOST, DB_USER, DB_PWD, DB_NAME);
     mysqli_set_charset($conexion, "utf8");
     if (!$result = mysqli_query($conexion, $sql))
@@ -160,30 +181,27 @@ function gethoursbasewithousede($id_doctor) {
 function getBlockedHours($id_doctor) {
     $hbase = gethoursbasewithousede($id_doctor);
     $dates = array();
-    
+
 
     for ($d = 0; $d < 7; $d++) { //  Se recorre los días de la semana
         $founded = false;
         $itime = 0;
         for ($i = 0; $i < sizeof($hbase); $i++) {
-            
+
             if ($hbase[$i]["day"] == $d) {
                 $founded = true;
-                $init = $hbase[$i]["finit"];
-                $end = $hbase[$i]["fend"];
+                $init = intval($hbase[$i]["finit"]);
+                $end = intval($hbase[$i]["fend"]);
                 array_push($dates, array(0 => $d, "day" => $d, 1 => $itime, "fini" => $itime, 2 => $init, "fend" => $init));
                 $itime = $end;
             }
         }
-        if(!$founded)
-        {
+        if (!$founded) {
             array_push($dates, array(0 => $d, "day" => $d, 1 => 0, "fini" => 0, 2 => 1440, "fend" => 1440));
-        }
-        else 
-        {
+        } else {
             array_push($dates, array(0 => $d, "day" => $d, 1 => $itime, "fini" => $itime, 2 => 1440, "fend" => 1440));
         }
     }
-    
+
     return $dates;
 }

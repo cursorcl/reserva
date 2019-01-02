@@ -16,7 +16,6 @@ function mybutton()
                 $.each(msg, function (index, item) {
                     scheduler.formSection('Fono').setValue(item.phone);
                     scheduler.formSection('Paciente').setValue(item.name);
-
                     var paciente = scheduler.formSection("Paciente");
                     paciente.control.disabled = true;
                 });
@@ -37,11 +36,14 @@ $().ready(
             scheduler.config.details_on_create = true;
             scheduler.config.hour_size_px = (60 / step) * 22;
             scheduler.config.event_duration = step;
+            scheduler.config.time_step = step;
             scheduler.config.auto_end_date = true;
             scheduler.config.first_hour = 09;
             scheduler.config.last_hour = 20;
             scheduler.config.start_on_monday = true;
             scheduler.config.wide_form = true;
+            scheduler.config.limit_time_select = true;
+            scheduler.config.wide_form = false;
 
             scheduler.templates.event_class = function (start, end, event) {
                 if (event.text === "LIBRE")
@@ -71,7 +73,7 @@ $().ready(
                     });
                     scheduler.form_blocks["my_editor"] = {
                         render: function (sns) {
-                            return "<div class='input-group'><input type='text' class='form-control' placeholder='Rut' name='search' style='margin-left:10px;'><div class='input-group-btn'><button class='btn btn-default' type='button' onClick='mybutton();'><i class='glyphicon glyphicon-search'></i></button></div></div>";
+                            return "<div class='input-group'><input type='text' class='form-control' placeholder='Rut' name='search' onfocusout='mybutton();' style='margin-right:2px;margin-left:10px;width=75%'><div class='input-group-btn' style='margin-left:2px;width=25%'><button class='btn btn-default' type='button' onClick='mybutton();'><i class='glyphicon glyphicon-search'></i></button></div></div>";
                         },
                         set_value: function (node, value, ev) {
                             node.childNodes[0].value = value || "";
@@ -87,11 +89,11 @@ $().ready(
                     };
 
                     scheduler.config.lightbox.sections = [
-                        {name: "Rut", height: 40, map_to: "rut", type: "my_editor", focus: true},
+                        {name: "Rut", height: 30, map_to: "rut", type: "my_editor", focus: true},
                         {name: 'Paciente', map_to: "text", type: "textarea", height: 30},
                         {name: 'Fono', map_to: "telefono", type: "textarea", height: 30},
                         {name: 'Correo', map_to: "email", type: "textarea", height: 30},
-                        {name: "Prevision", options: isapres, map_to: "combo_select", type: "combo", image_path: "../common/dhtmlxCombo/imgs/", height: 30, filtering: true},
+                        //{name: "Prevision", options: isapres, map_to: "combo_select", type: "combo", image_path: "../common/dhtmlxCombo/imgs/", height: 30, filtering: true}
                         {name: "Hora", height: 72, type: "time", map_to: "hora"},
                     ];
 
@@ -159,7 +161,7 @@ $().ready(
                         if (validate(tmpRut))
                         {
                             var searchRut = clean(format(tmpRut));
-                            parametros = {"input_rut": searchRut, "fecha": fecha, "hora": hora, "id_doctor": id_doctor, "input_email": email, "input_phone": input_phone};
+                            parametros = {"id": id, "input_rut": searchRut, "fecha": fecha, "hora": hora, "id_doctor": id_doctor, "input_email": email, "input_phone": input_phone};
                             $.ajax({
                                 type: "GET",
                                 url: "src/reserva/registrar_horas_para_paciente_sin_mail.php",
@@ -217,7 +219,7 @@ $(document).ready(function () {
         // in our CSS
         $('a[aria-expanded=true]').attr('aria-expanded', 'false');
     });
-    
+
     var personalId = $("#personal_id").val();
     var rol = $("#rol").val();
     if (rol > 0)
@@ -228,7 +230,7 @@ $(document).ready(function () {
     {
         scheduler.config.readonly = false;
         obtainDoctors();
-    }    
+    }
 });
 
 function formatDate(date) {
@@ -259,7 +261,7 @@ function obtainOneDoctors($personalId)
             $.each(msg, function (index, item) {
                 scheduler.blockTime({
                     days: item.day,
-                    css: "gray",
+                    css: "red",
                     zones: [item.fini, item.fend]
                 });
                 scheduler.updateView();
@@ -298,14 +300,21 @@ function obtainOneDoctors($personalId)
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (msg) {
-                        var events = [];
                         $.each(msg, function (index, item) {
-                            var item = {"id": item.id, "text": item.pacienteNombre, "start_date": item.fecha + " " + item.horainicio, "end_date": item.fecha + " " + item.horatermino, "rut": item.pacienteRut + "-" + item.pacienteDv, "email": item.pacienteEmail, "telefono": item.pacienteFono, color: "gray", textColor: "white"};
-                            events.push(item);
+                            id = scheduler.addEvent({
+                                id: item.id, 
+                                text: item.pacienteNombre, 
+                                start_date: item.fecha + " " + item.horainicio, 
+                                end_date: item.fecha + " " + item.horatermino, 
+                                rut: item.pacienteRut + "-" + item.pacienteDv, 
+                                email: item.pacienteEmail, 
+                                telefono: item.pacienteFono, 
+                                color: 'gray', 
+                                textColor: 'white'
+                            });
+                            scheduler.getEvent(id).readonly = true;
                         });
-                        scheduler.parse(events, "json");
                         scheduler.updateView();
-
                     },
                     error: function (xhr, ajaxOptions, thrownError) {
                         alert(xhr.status);
@@ -340,6 +349,7 @@ function obtainDoctors()
             var line = "";
             $.each(msg, function (index, item) {
                 line = line + "<li><a href='' id='" + item.personalId + "'>" + item.personalNombre + "</a></li>";
+
             });
             $("#homeSubmenu").empty();
             $("#homeSubmenu").append(line);
@@ -356,8 +366,6 @@ function obtainDoctors()
                 var ff = day.toLocaleString().split(" ");
                 $fecha = day.toISOString().slice(0, 10);
                 $hora = ff[1];
-
-
                 $.ajax({
                     type: "GET",
                     url: "src/reserva/obtener_horas_base.php",
@@ -368,7 +376,7 @@ function obtainDoctors()
                         $.each(msg, function (index, item) {
                             scheduler.blockTime({
                                 days: item.day,
-                                css: "gray",
+                                css: "blue",
                                 zones: [item.fini, item.fend]
                             });
                         });

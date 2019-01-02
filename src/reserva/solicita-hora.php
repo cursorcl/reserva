@@ -51,7 +51,7 @@
                         <div class="col-md-10">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                <input type="text" readonly  class="form-control" name="show_client_name" id="show_client_name" placeholder="Paciente">
+                                <input type="text" readonly  class="form-control" name="show_client_name" id="show_client_name" placeholder="Paciente" style="text-transform:uppercase">
                             </div>
                         </div>
                     </div>
@@ -66,7 +66,7 @@
                         <div class="col-md-10">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                <input type="text" class="form-control" name="input_paterno" id="input_paterno" placeholder="Apellido Paterno">
+                                <input type="text" class="form-control" name="input_paterno" id="input_paterno" placeholder="Apellido Paterno" style="text-transform:uppercase">
                             </div>
                         </div>
                     </div>
@@ -78,7 +78,7 @@
                         <div class="col-md-10">              
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                <input type="text" class="form-control" id="input_materno" name="input_materno" placeholder="Apellido Materno">
+                                <input type="text" class="form-control" id="input_materno" name="input_materno" placeholder="Apellido Materno" style="text-transform:uppercase">
                             </div>
                         </div>
                     </div>
@@ -89,7 +89,7 @@
                         <div class="col-md-10">                     
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                <input type="text" class="form-control" id="input_nombres"  name="input_nombres" placeholder="Nombre">
+                                <input type="text" class="form-control" id="input_nombres"  name="input_nombres" placeholder="Nombre" style="text-transform:uppercase">
                             </div>
                         </div>
                     </div>
@@ -130,7 +130,7 @@
                 <h4 class="modal-title">Registro de hora</h4>
             </div>
             <div class="modal-body">
-                <p>La hora ha sido registrada con exito.</p>
+                <p>Se ha enviado un correo para confirmación.</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
@@ -148,7 +148,7 @@
                 <h4 class="modal-title">Registro de hora</h4>
             </div>
             <div class="modal-body">
-                <p>Se ha producido un error al registrar su hora.</p>
+                <p>Se ha producido un error al registrar su hora. Reintente.</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>

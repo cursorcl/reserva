@@ -136,6 +136,11 @@ a.article, a.article:hover {
     color: #fff
 }
 
+.dhx_section_time select:nth-child(n+6),
+.dhx_section_time span{
+    display:none
+}
+
 /* ---------------------------------------------------
     CONTENT STYLE
 ----------------------------------------------------- */

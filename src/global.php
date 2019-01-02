@@ -62,6 +62,7 @@
   
   define('ESTADO_HORA_RESERVADA', 0);
   define('ESTADO_HORA_CONFIRMADA', 1);
+  define('EMAIL_FROM', "cursor.cl@gmail.cl");
   date_default_timezone_set('America/Santiago');
 
   include_once(dirname(__FILE__).'/../vendor/autoload.php');
